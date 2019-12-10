@@ -11,7 +11,7 @@ The project of embeded system course.
 | ----------- | -------- |
 | Guo Mengwei | 11610615 |
 | Zhang Jiayu | 11712325 |
-|             |          |
+| Zhang Tingting |    11712531   |
 
 
 
