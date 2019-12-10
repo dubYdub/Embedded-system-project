@@ -10,7 +10,7 @@ The project of embeded system course.
 | Name        | ID       |
 | ----------- | -------- |
 | Guo Mengwei | 11610615 |
-|             |          |
+| Zhang Jiayu | 11712325 |
 |             |          |
 
 
