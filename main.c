@@ -91,6 +91,19 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+
+  // initialize the variables related to the status bar
+  int next_shape1 = 0
+  int next_shape2 = 0
+  int levelNum = 0
+  int scoreNum = 0
+  char levelMsg[5];
+  char scoreMsg[5];
+  char shapeLable[5] = "Next"
+  char levelLable[6] = "Level"
+  char scoreLable[6] = "Score"
+  
+
   /* USER CODE BEGIN 2 */
   uint32_t y1 = 0;
   uint32_t y2 = 20;
@@ -108,6 +121,7 @@ int main(void)
 	POINT_COLOR = RED;
 	LCD_Fill(0,y1-1, 80, y2-1, WHITE);
 	LCD_Fill(0,y1, 80, y2, YELLOW);
+
 //	sprintf(yy, "%d", y2);
 //	LCD_ShowString(30, 40, 200, 24, 24, yy);
 	y1 += 1;
@@ -116,6 +130,76 @@ int main(void)
 		y2 = 20;
 		y1 = 0;
 	}
+
+  //////////////////////////  status bar  /////////////////////////////////////////////////////
+	
+  // draw the status bar
+  LCD_Fill( 280, 0, 320, 240, WHITE);
+
+  // draw the strings in the status bar
+	LCD_ShowString(220, 20, 40, 24, 24, shapeLable);
+	LCD_ShowString(220, 180, 40, 24, 24, levelLable);
+	LCD_ShowString(220, 240, 40, 24, 24, scoreLable);
+
+  // draw the number of levels and scores
+  sprintf(levelMsg, "%d", levelNum);
+  sprintf(scoreMsg, "%d", scoreNum);
+  LCD_ShowString(220, 200, 40, 24, 24, level);
+	LCD_ShowString(220, 260, 40, 24, 24, score);
+  
+  // draw the shapes of the coming nodes (220, 80) (220, 120)
+  switch (next_shape1)
+  {
+  /* 
+  ... ...
+  ... ...
+  ... ...
+  ... ...
+
+  */
+  case 0:
+    LCD_Fill( 210, 70, 230, 90, WHITE);
+    break;
+
+  /* 
+      ...
+      ...
+  ... ... ...
+  ... ... ...
+
+  */
+  case 1:
+    LCD_Fill( 205, 70, 215, 80, WHITE);
+    LCD_Fill( 195, 80, 225, 90, WHITE);
+    break;
+
+  case 2:
+  
+
+    break;
+
+  case 3:
+
+    break;
+
+  case 4:
+
+    break;
+
+  case 5:
+
+    break;
+
+  case 6:
+
+    break;
+
+  }
+   
+
+
+
+  // handle the key pressing
 	HAL_Delay(10);
 	if(GetPress(KEY0_GPIO_Port, KEY0_Pin,GPIO_PIN_RESET) == 1){
 		HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
