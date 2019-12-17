@@ -54,13 +54,13 @@ static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 _Bool GetPress(GPIO_TypeDef *GPIOx,uint16_t GPIO_Pin,GPIO_PinState PinState);
-void draw_model_1(int rotation , int x_offset ,int drop,int clear);
-void draw_model_2(int rotation , int x_offset ,int drop,int clear);
-void draw_model_3(int rotation , int x_offset ,int drop,int clear);
-void draw_model_4(int rotation , int x_offset ,int drop,int clear);
-void draw_model_5(int rotation , int x_offset ,int drop,int clear);
-void draw_model_6(int rotation , int x_offset ,int drop,int clear);
-void draw_model_7(int rotation , int x_offset ,int drop,int clear);
+void draw_model_1(int rotation ,int drop,int clear);
+void draw_model_2(int rotation , int drop,int clear);
+void draw_model_3(int rotation ,int drop,int clear);
+void draw_model_4(int rotation , int drop,int clear);
+void draw_model_5(int rotation ,int drop,int clear);
+void draw_model_6(int rotation , int drop,int clear);
+void draw_model_7(int rotation , int drop,int clear);
 static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_shape2);
 /* USER CODE END PFP */
 
@@ -73,6 +73,7 @@ static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_sha
   * @brief  The application entry point.
   * @retval int
   */
+int xoffset = 0;
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -108,7 +109,7 @@ int main(void)
     int scoreNum = 0;
 
 
-  int xoffset = 0;
+
   int  rotation = 0;
   int drop = 0;
   int speed= 1;
@@ -130,31 +131,31 @@ int main(void)
 
 	  BACK_COLOR = WHITE;
 	  showStatus(levelNum, scoreNum, next_shape1, next_shape2);
-	  draw_model_6(rotation , xoffset , drop , 0);
+	  draw_model_7(rotation , drop , 0);
 	  if(GetPress(KEY0_GPIO_Port, KEY0_Pin,GPIO_PIN_RESET) == 1){
 	    HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
 	    //RIGHT
-	    draw_model_6(rotation , xoffset , drop , 1);
+	    draw_model_7(rotation ,drop , 1);
 	    xoffset += 20;
-	    draw_model_6(rotation , xoffset , drop , 0);
+	    draw_model_7(rotation , drop , 0);
 	   }
 	   if(GetPress(KEY1_GPIO_Port, KEY1_Pin,GPIO_PIN_RESET) == 1){
 	    HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
 	    //left
 
-	    draw_model_6(rotation , xoffset , drop , 1);
+	    draw_model_7(rotation ,drop , 1);
 	    	    rotation += 1;
-	    	    draw_model_6(rotation , xoffset , drop , 0);
+	    	    draw_model_7(rotation , drop , 0);
 	   }
 	   if(GetPress(KEY_WK_GPIO_Port, KEY_WK_Pin,GPIO_PIN_SET) == 1){
 	    HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
 	    HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-	    draw_model_6(rotation , xoffset , drop , 1);
+	    draw_model_7(rotation , drop , 1);
 	    	    xoffset -=20;
-	    	    draw_model_6(rotation , xoffset , drop , 0);
+	    	    draw_model_7(rotation ,drop , 0);
 	   }
 	   HAL_Delay(60);
-	   draw_model_6(rotation , xoffset , drop , 1);
+	   draw_model_7(rotation ,drop , 1);
 	   drop += speed;
   }
   /* USER CODE END 3 */
@@ -496,21 +497,37 @@ _Bool GetPress(GPIO_TypeDef *GPIOx,uint16_t GPIO_Pin,GPIO_PinState PinState)
 }
 
 ///// SEVEN MODES
-void draw_model_1(int rotation , int x_offset ,int drop,int clear){
+void draw_model_1(int rotation , int drop,int clear){
 	int x1 = 0;
 	int y1 = 0;
 	int x2 = 0;
 	int y2 = 0;
 	if(rotation % 2 == 0){
-		x1 = 80 + x_offset;
+		x1 = 60 + xoffset;
+		if(x1 >= 120){
+			x1 = 120;
+			xoffset = 60;
+		}
+		if(x1 <= 0){
+			x1 = 0;
+			xoffset = -60;
+		}
 		y1 = 0 + drop;
-		x2 = 160 + x_offset;
+		x2 = 140+ xoffset;
 		y2 = 20 + drop;
 
 	}else{
-		x1 = 110 + x_offset;
+		x1 = 80 + xoffset;
+		if(x1 >= 180){
+			x1 = 180;
+			xoffset = 100;
+				}
+				if(x1 <= 0){
+					x1 = 0;
+					xoffset = -80;
+				}
 		y1 = 0 + drop;
-		x2 = 130 + x_offset;
+		x2 = 100 + xoffset;
 		y2 = 80 + drop;
 
 	}
@@ -520,11 +537,19 @@ void draw_model_1(int rotation , int x_offset ,int drop,int clear){
 				LCD_Fill(x1,y1, x2, y2, WHITE);
 			}
 }
-void draw_model_2(int rotation , int x_offset ,int drop,int clear){
+void draw_model_2(int rotation ,int drop,int clear){
 
-		int x1 = 100 + x_offset;
+		int x1 = 80 + xoffset;
+		if(x1 >= 160){
+				x1 = 160;
+				xoffset = 80;
+				}
+				if(x1 <= 0){
+				x1 = 0;
+				xoffset = -80;
+				}
 		int y1 = 0 + drop;
-		int x2 = 140 + x_offset;
+		int x2 = 120 + xoffset;
 		int y2 = 40 + drop;
 		if(clear == 0){
 			LCD_Fill(x1,y1, x2, y2, YELLOW);
@@ -532,7 +557,7 @@ void draw_model_2(int rotation , int x_offset ,int drop,int clear){
 			LCD_Fill(x1,y1, x2, y2, WHITE);
 		}
 }
-void draw_model_3(int rotation , int x_offset ,int drop,int clear){
+void draw_model_3(int rotation , int drop,int clear){
 	int x1 = 0;
 	int y1 = 0;
 	int x2 = 0;
@@ -542,23 +567,34 @@ void draw_model_3(int rotation , int x_offset ,int drop,int clear){
 	int x4 = 0;
 	int y4 = 0;
 	if(rotation % 2 == 0){
-		x1 = 90 + x_offset;
+		if(80 + xoffset<= 0){
+			xoffset = -80;
+		}
+		if(100 + xoffset >= 160){
+			xoffset = 60;
+		}
+		x1 = 80 + xoffset;
 		y1 = 0 + drop;
-		x2 = 130 + x_offset;
+		x2 = 120 + xoffset;
 		y2 = 20 + drop;
-		x3 = 110 + x_offset;
+		x3 = 100 + xoffset;
 		y3 = 20 + drop;
-		x4 = 150 + x_offset;
+		x4 = 140 + xoffset;
 		y4 = 40 + drop;
-
 	}else{
-		x1 = 100 + x_offset;
+		if(100 + xoffset<=0){
+			xoffset = -100;
+		}
+		if(120 + xoffset>= 180){
+			xoffset = 60;
+		}
+		x1 = 100 + xoffset;
+		x3 = 120 + xoffset;
 		y1 = 20 + drop;
-		x2 = 120 + x_offset;
+		x2 = 120 + xoffset;
 		y2 = 60 + drop;
-		x3 = 120 + x_offset;
 		y3 = 0 + drop;
-		x4 = 140 + x_offset;
+		x4 = 140 + xoffset;
 		y4 = 40 + drop;
 
 	}
@@ -570,7 +606,7 @@ void draw_model_3(int rotation , int x_offset ,int drop,int clear){
 				LCD_Fill(x3,y3, x4, y4, WHITE);
 			}
 }
-void draw_model_4(int rotation , int x_offset ,int drop,int clear){
+void draw_model_4(int rotation , int drop,int clear){
 	int x1 = 0;
 	int y1 = 0;
 	int x2 = 0;
@@ -580,24 +616,36 @@ void draw_model_4(int rotation , int x_offset ,int drop,int clear){
 	int x4 = 0;
 	int y4 = 0;
 	if(rotation % 2 == 0){
-		x1 = 110 + x_offset;
+		if(80 + xoffset <= 0){
+			xoffset = -80;
+		}
+		if(100 + xoffset>=160){
+			xoffset = 60;
+		}
+		x1 = 100 + xoffset;
 		y1 = 0 + drop;
-		x2 = 150 + x_offset;
+		x2 =140 + xoffset;
 		y2 = 20 + drop;
-		x3 = 90 + x_offset;
+		x3 = 80 + xoffset;
 		y3 = 20 + drop;
-		x4 = 130 + x_offset;
+		x4 = 120 + xoffset;
 		y4 = 40 + drop;
 
 
 	}else{
-		x1 = 100 + x_offset;
+		if(80+ xoffset<=0){
+			xoffset = -80;
+		}
+		if(100+xoffset>= 180){
+			xoffset = 80;
+		}
+		x1 = 80 + xoffset;
 		y1 = 0 + drop;
-		x2 = 120 + x_offset;
+		x2 = 100 + xoffset;
 		y2 = 40 + drop;
-		x3 = 120 + x_offset;
+		x3 = 100 + xoffset;
 		y3 = 20 + drop;
-		x4 = 140 + x_offset;
+		x4 = 120 + xoffset;
 		y4 = 60 + drop;
 
 	}
@@ -609,8 +657,8 @@ void draw_model_4(int rotation , int x_offset ,int drop,int clear){
 				LCD_Fill(x3,y3, x4, y4, WHITE);
 			}
 }
-void draw_model_5(int rotation , int x_offset ,int drop,int clear){
-	int x1 = 0;
+void draw_model_5(int rotation ,int drop,int clear){
+		int x1 = 0;
 		int y1 = 0;
 		int x2 = 0;
 		int y2 = 0;
@@ -619,44 +667,68 @@ void draw_model_5(int rotation , int x_offset ,int drop,int clear){
 		int x4 = 0;
 		int y4 = 0;
 	if(rotation % 4 == 0){
-		x1 = 90 + x_offset;
+		if(80+xoffset<=0){
+			xoffset = -80;
+		}
+		if(80 + xoffset >= 140){
+			xoffset = 60;
+		}
+		x1 = 80 + xoffset;
 		y1 = 0 + drop;
-		x2 = 110 + x_offset;
+		x2 = 100 + xoffset;
 		y2 = 20 + drop;
-		x3 = 90 + x_offset;
+		x3 = 80 + xoffset;
 		y3 = 20 + drop;
-		x4 = 150 + x_offset;
+		x4 = 140 + xoffset;
 		y4 = 40 + drop;
 
 
 	}else if(rotation % 4 == 1){
-		x1 = 120 + x_offset;
+		if(100+xoffset >= 180){
+			xoffset = 80;
+		}
+		if(80+xoffset<=0){
+			xoffset = -80;
+		}
+		x1 = 100 + xoffset;
 		y1 = 0 + drop;
-		x2 = 140 + x_offset;
+		x2 = 120 + xoffset;
 		y2 = 20 + drop;
-		x3 = 100 + x_offset;
+		x3 = 80 + xoffset;
 		y3 = 0 + drop;
-		x4 = 120 + x_offset;
+		x4 = 100 + xoffset;
 		y4 = 60 + drop;
 
 	}else if(rotation % 4 == 2){
-		x1 = 90 + x_offset;
+		if(80+xoffset<=0){
+			xoffset = -80;
+		}
+		if(120+ xoffset >= 180){
+			xoffset = 60;
+		}
+		x1 = 80 + xoffset;
 		y1 = 0 + drop;
-		x2 = 150 + x_offset;
+		x2 = 140 + xoffset;
 		y2 = 20 + drop;
-		x3 = 130 + x_offset;
+		x3 = 120 + xoffset;
 		y3 = 20 + drop;
-		x4 = 150 + x_offset;
+		x4 = 140 + xoffset;
 		y4 = 40 + drop;
 
 	}else if(rotation % 4 == 3){
-		x1 = 100 + x_offset;
+		if(80+xoffset<=0){
+			xoffset = -80;
+		}
+		if(100+xoffset>=180){
+			xoffset = 80;
+		}
+		x1 = 80 + xoffset;
 		y1 = 40 + drop;
-		x2 = 120 + x_offset;
+		x2 = 100 + xoffset;
 		y2 = 60 + drop;
-		x3 = 120 + x_offset;
+		x3 = 100 + xoffset;
 		y3 = 0 + drop;
-		x4 = 140 + x_offset;
+		x4 = 120 + xoffset;
 		y4 = 60 + drop;
 
 	}
@@ -668,7 +740,7 @@ void draw_model_5(int rotation , int x_offset ,int drop,int clear){
 				LCD_Fill(x3,y3, x4, y4, WHITE);
 			}
 }
-void draw_model_6(int rotation , int x_offset ,int drop,int clear){
+void draw_model_6(int rotation ,int drop,int clear){
 	int x1 = 0;
 			int y1 = 0;
 			int x2 = 0;
@@ -678,44 +750,68 @@ void draw_model_6(int rotation , int x_offset ,int drop,int clear){
 			int x4 = 0;
 			int y4 = 0;
 	if(rotation % 4 == 0){
-		x1 = 130 + x_offset;
+		if(120+xoffset>=180){
+			xoffset = 60;
+		}
+		if(80+xoffset<=0){
+			xoffset = -80;
+		}
+		x1 = 120 + xoffset;
 		y1 = 0 + drop;
-		x2 = 150 + x_offset;
+		x2 = 140 + xoffset;
 		y2 = 20 + drop;
-		 x3 = 90 + x_offset;
+		 x3 = 80 + xoffset;
 		y3 = 20 + drop;
-		 x4 = 150 + x_offset;
+		 x4 = 140 + xoffset;
 		y4 = 40 + drop;
 
 
 	}else if(rotation % 4 == 1){
-		 x1 = 100 + x_offset;
+		if(80+xoffset<=0){
+			xoffset = -80;
+		}
+		if(100+xoffset>=180){
+			xoffset = 80;
+		}
+		 x1 = 80 + xoffset;
 		y1 = 0 + drop;
-		 x2 = 120 + x_offset;
+		 x2 = 100 + xoffset;
 		y2 = 60 + drop;
-		 x3 = 120 + x_offset;
+		 x3 = 100 + xoffset;
 		 y3 = 40 + drop;
-		 x4 = 140 + x_offset;
+		 x4 = 120 + xoffset;
 		y4 = 60 + drop;
 
 	}else if(rotation % 4 == 2){
-		 x1 = 90 + x_offset;
+		if(80+xoffset<=0){
+			xoffset = -80;
+		}
+		if(80+xoffset>=140){
+			xoffset = 60;
+		}
+		 x1 = 80 + xoffset;
 		 y1 = 0 + drop;
-		x2 = 150 + x_offset;
+		x2 = 140 + xoffset;
 		 y2 = 20 + drop;
-		 x3 = 90 + x_offset;
+		 x3 = 80 + xoffset;
 		y3 = 20 + drop;
-		 x4 = 110 + x_offset;
+		 x4 = 100 + xoffset;
 		 y4 = 40 + drop;
 
 	}else if(rotation % 4 == 3){
-	 x1 = 100 + x_offset;
+		if(80+xoffset<=0){
+			xoffset = -80;
+		}
+		if(100+xoffset>=180){
+			xoffset = 80;
+		}
+	 x1 = 80 + xoffset;
 		 y1 = 0 + drop;
-		 x2 = 120 + x_offset;
+		 x2 = 100 + xoffset;
 		 y2 = 20 + drop;
-		x3 = 120 + x_offset;
+		x3 = 100 + xoffset;
 		y3 = 0 + drop;
-		 x4 = 140 + x_offset;
+		 x4 = 120 + xoffset;
 		 y4 = 60 + drop;
 
 	}
@@ -727,7 +823,7 @@ void draw_model_6(int rotation , int x_offset ,int drop,int clear){
 				LCD_Fill(x3,y3, x4, y4, WHITE);
 			}
 }
-void draw_model_7(int rotation , int x_offset ,int drop,int clear){
+void draw_model_7(int rotation , int drop,int clear){
 	int x1 = 0;
 				int y1 = 0;
 				int x2 = 0;
@@ -737,44 +833,68 @@ void draw_model_7(int rotation , int x_offset ,int drop,int clear){
 				int x4 = 0;
 				int y4 = 0;
 	if(rotation % 4 == 0){
-		x1 = 110 + x_offset;
+		if(80+xoffset<=0){
+			xoffset = -80;
+		}
+		if(80+xoffset>=140){
+			xoffset = 60;
+		}
+		x1 = 100 + xoffset;
 		y1 = 0 + drop;
-		 x2 = 130 + x_offset;
+		 x2 = 120 + xoffset;
 		 y2 = 20 + drop;
-		x3 = 90 + x_offset;
+		x3 = 80 + xoffset;
 		 y3 = 20 + drop;
-		 x4 = 150 + x_offset;
+		 x4 = 140 + xoffset;
 		 y4 = 40 + drop;
 
 
 	}else if(rotation % 4 == 1){
-		x1 = 100 + x_offset;
+		if(80+xoffset<=0){
+			xoffset = -80;
+		}
+		if(100+xoffset>= 180){
+			xoffset = 80;
+		}
+		x1 = 80 + xoffset;
 		 y1 = 0 + drop;
-		 x2 = 120 + x_offset;
+		 x2 = 100 + xoffset;
 		 y2 = 60 + drop;
-		 x3 = 120 + x_offset;
+		 x3 = 100 + xoffset;
 		 y3 = 20 + drop;
-		 x4 = 140 + x_offset;
+		 x4 = 120 + xoffset;
 		 y4 = 40 + drop;
 
 	}else if(rotation % 4 == 2){
-		 x1 = 90 + x_offset;
+		if(80+xoffset<=0){
+			xoffset = -80;
+		}
+		if(80+xoffset>= 140){
+			xoffset = 60;
+		}
+		 x1 = 80 + xoffset;
 		y1 = 0 + drop;
-		 x2 = 150 + x_offset;
+		 x2 = 140 + xoffset;
 		 y2 = 20 + drop;
-		 x3 = 110 + x_offset;
+		 x3 = 100 + xoffset;
 		 y3 = 20 + drop;
-		x4 = 130 + x_offset;
+		x4 = 120 + xoffset;
 		 y4 = 40 + drop;
 
 	}else if(rotation % 4 == 3){
-		x1 = 100 + x_offset;
+		if(80+xoffset<=0){
+			xoffset = -80;
+		}
+		if(100+xoffset>=180){
+			xoffset = 80;
+		}
+		x1 = 80 + xoffset;
 		 y1 = 20 + drop;
-		 x2 = 120 + x_offset;
+		 x2 = 100 + xoffset;
 		 y2 = 40 + drop;
-		 x3 = 120 + x_offset;
+		 x3 = 100 + xoffset;
 		 y3 = 0 + drop;
-		 x4 = 140 + x_offset;
+		 x4 = 120 + xoffset;
 		 y4 = 60 + drop;
 
 	}
