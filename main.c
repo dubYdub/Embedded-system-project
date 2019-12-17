@@ -147,9 +147,18 @@ int main(void)
   LCD_ShowString(220, 200, 40, 24, 24, level);
 	LCD_ShowString(220, 260, 40, 24, 24, score);
   
-  // draw the shapes of the coming nodes (220, 80) (220, 120)
+  // draw the shapes of the coming nodes 1 center:(220, 80) 
   switch (next_shape1)
   {
+  /* 
+  ... ... ... ...
+  ... ... ... ...
+
+  */
+  case 0:
+    LCD_Fill( 195, 75, 235, 85, WHITE);
+    break;
+
   /* 
   ... ...
   ... ...
@@ -157,46 +166,159 @@ int main(void)
   ... ...
 
   */
-  case 0:
+  case 1:
     LCD_Fill( 210, 70, 230, 90, WHITE);
     break;
 
   /* 
+  ... ...
+  ... ...
+      ... ...
+      ... ...
+
+  */
+  case 2:
+    LCD_Fill( 205, 70, 225, 80, WHITE);
+    LCD_Fill( 215, 80, 235, 90, WHITE);
+    break;
+
+  /* 
+      ... ...
+      ... ...
+  ... ... 
+  ... ... 
+
+  */
+  case 3:
+    LCD_Fill( 215, 70, 235, 80, WHITE);
+    LCD_Fill( 205, 80, 225, 90, WHITE);
+    break;
+
+  /* 
+  ... 
+  ... 
+  ... ... ... 
+  ... ... ...
+
+  */
+  case 4:
+    LCD_Fill( 205, 70, 215, 80, WHITE);
+    LCD_Fill( 205, 80, 235, 90, WHITE);
+    break;
+
+  /* 
+          ...
+          ...
+  ... ... ... 
+  ... ... ...
+
+  */
+  case 5:
+    LCD_Fill( 225, 70, 235, 80, WHITE);
+    LCD_Fill( 205, 80, 235, 90, WHITE);
+    break;
+
+
+  /* 
       ...
       ...
   ... ... ...
   ... ... ...
 
   */
-  case 1:
+  case 6:
     LCD_Fill( 205, 70, 215, 80, WHITE);
     LCD_Fill( 195, 80, 225, 90, WHITE);
     break;
 
+  }
+   
+  // draw the shapes of the coming nodes 2 center:(220, 120)   
+  int distance = 40
+  switch (next_shape2)
+  {
+  /* 
+  ... ... ... ...
+  ... ... ... ...
+
+  */
+  case 0:
+    LCD_Fill( 195, 75+distance, 235, 85+distance, WHITE);
+    break;
+
+  /* 
+  ... ...
+  ... ...
+  ... ...
+  ... ...
+
+  */
+  case 1:
+    LCD_Fill( 210, 70+distance, 230, 90+distance, WHITE);
+    break;
+
+  /* 
+  ... ...
+  ... ...
+      ... ...
+      ... ...
+
+  */
   case 2:
-  
-
+    LCD_Fill( 205, 70+distance, 225, 80+distance, WHITE);
+    LCD_Fill( 215, 80+distance, 235, 90+distance, WHITE);
     break;
 
+  /* 
+      ... ...
+      ... ...
+  ... ... 
+  ... ... 
+
+  */
   case 3:
-
+    LCD_Fill( 215, 70+distance, 235, 80+distance, WHITE);
+    LCD_Fill( 205, 80+distance, 225, 90+distance, WHITE);
     break;
 
+  /* 
+  ... 
+  ... 
+  ... ... ... 
+  ... ... ...
+
+  */
   case 4:
-
+    LCD_Fill( 205, 70+distance, 215, 80+distance, WHITE);
+    LCD_Fill( 205, 80+distance, 235, 90+distance, WHITE);
     break;
 
+  /* 
+          ...
+          ...
+  ... ... ... 
+  ... ... ...
+
+  */
   case 5:
-
+    LCD_Fill( 225, 70+distance, 235, 80+distance, WHITE);
+    LCD_Fill( 205, 80+distance, 235, 90+distance, WHITE);
     break;
 
-  case 6:
 
+  /* 
+      ...
+      ...
+  ... ... ...
+  ... ... ...
+
+  */
+  case 6:
+    LCD_Fill( 205, 70+distance, 215, 80+distance, WHITE);
+    LCD_Fill( 195, 80+distance, 225, 90+distance, WHITE);
     break;
 
   }
-   
-
 
 
   // handle the key pressing
