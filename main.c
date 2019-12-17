@@ -54,6 +54,14 @@ static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 _Bool GetPress(GPIO_TypeDef *GPIOx,uint16_t GPIO_Pin,GPIO_PinState PinState);
+void draw_model_1(int rotation , int x_offset ,int drop,int clear);
+void draw_model_2(int rotation , int x_offset ,int drop,int clear);
+void draw_model_3(int rotation , int x_offset ,int drop,int clear);
+void draw_model_4(int rotation , int x_offset ,int drop,int clear);
+void draw_model_5(int rotation , int x_offset ,int drop,int clear);
+void draw_model_6(int rotation , int x_offset ,int drop,int clear);
+void draw_model_7(int rotation , int x_offset ,int drop,int clear);
+static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_shape2);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -91,249 +99,63 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
-
-  // initialize the variables related to the status bar
-  int next_shape1 = 0
-  int next_shape2 = 0
-  int levelNum = 0
-  int scoreNum = 0
-  char levelMsg[5];
-  char scoreMsg[5];
-  char shapeLable[5] = "Next"
-  char levelLable[6] = "Level"
-  char scoreLable[6] = "Score"
-  
-
   /* USER CODE BEGIN 2 */
-  uint32_t y1 = 0;
-  uint32_t y2 = 20;
+//  uint32_t y1 = 0;
+//  uint32_t y2 = 20;
+  int next_shape1 = 0;
+    int next_shape2 = 0;
+    int levelNum = 0;
+    int scoreNum = 0;
+
+
+  int xoffset = 0;
+  int  rotation = 0;
+  int drop = 0;
+  int speed= 1;
 //  char yy[10];
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  LCD_ShowString(205, 20, 30, 15, 12,"Next");
+  	LCD_ShowString(205, 180, 30, 15, 12, "Level");
+  	LCD_ShowString(205, 250, 30, 15, 12,"Score");
+  	LCD_Fill( 201, 0, 203, 320, GRAY);
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	BACK_COLOR = WHITE;
-	POINT_COLOR = RED;
-	LCD_Fill(0,y1-1, 80, y2-1, WHITE);
-	LCD_Fill(0,y1, 80, y2, YELLOW);
-
-//	sprintf(yy, "%d", y2);
-//	LCD_ShowString(30, 40, 200, 24, 24, yy);
-	y1 += 1;
-	y2 += 1;
-	if(y2 == 320){
-		y2 = 20;
-		y1 = 0;
-	}
-
-  //////////////////////////  status bar  /////////////////////////////////////////////////////
-	
-  // draw the status bar
-  LCD_Fill( 280, 0, 320, 240, WHITE);
-
-  // draw the strings in the status bar
-	LCD_ShowString(220, 20, 40, 24, 24, shapeLable);
-	LCD_ShowString(220, 180, 40, 24, 24, levelLable);
-	LCD_ShowString(220, 240, 40, 24, 24, scoreLable);
-
-  // draw the number of levels and scores
-  sprintf(levelMsg, "%d", levelNum);
-  sprintf(scoreMsg, "%d", scoreNum);
-  LCD_ShowString(220, 200, 40, 24, 24, level);
-	LCD_ShowString(220, 260, 40, 24, 24, score);
-  
-  // draw the shapes of the coming nodes 1 center:(220, 80) 
-  switch (next_shape1)
-  {
-  /* 
-  ... ... ... ...
-  ... ... ... ...
-
-  */
-  case 0:
-    LCD_Fill( 195, 75, 235, 85, WHITE);
-    break;
-
-  /* 
-  ... ...
-  ... ...
-  ... ...
-  ... ...
-
-  */
-  case 1:
-    LCD_Fill( 210, 70, 230, 90, WHITE);
-    break;
-
-  /* 
-  ... ...
-  ... ...
-      ... ...
-      ... ...
-
-  */
-  case 2:
-    LCD_Fill( 205, 70, 225, 80, WHITE);
-    LCD_Fill( 215, 80, 235, 90, WHITE);
-    break;
-
-  /* 
-      ... ...
-      ... ...
-  ... ... 
-  ... ... 
-
-  */
-  case 3:
-    LCD_Fill( 215, 70, 235, 80, WHITE);
-    LCD_Fill( 205, 80, 225, 90, WHITE);
-    break;
-
-  /* 
-  ... 
-  ... 
-  ... ... ... 
-  ... ... ...
-
-  */
-  case 4:
-    LCD_Fill( 205, 70, 215, 80, WHITE);
-    LCD_Fill( 205, 80, 235, 90, WHITE);
-    break;
-
-  /* 
-          ...
-          ...
-  ... ... ... 
-  ... ... ...
-
-  */
-  case 5:
-    LCD_Fill( 225, 70, 235, 80, WHITE);
-    LCD_Fill( 205, 80, 235, 90, WHITE);
-    break;
 
 
-  /* 
-      ...
-      ...
-  ... ... ...
-  ... ... ...
+	  BACK_COLOR = WHITE;
+	  showStatus(levelNum, scoreNum, next_shape1, next_shape2);
+	  draw_model_6(rotation , xoffset , drop , 0);
+	  if(GetPress(KEY0_GPIO_Port, KEY0_Pin,GPIO_PIN_RESET) == 1){
+	    HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+	    //RIGHT
+	    draw_model_6(rotation , xoffset , drop , 1);
+	    xoffset += 20;
+	    draw_model_6(rotation , xoffset , drop , 0);
+	   }
+	   if(GetPress(KEY1_GPIO_Port, KEY1_Pin,GPIO_PIN_RESET) == 1){
+	    HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+	    //left
 
-  */
-  case 6:
-    LCD_Fill( 205, 70, 215, 80, WHITE);
-    LCD_Fill( 195, 80, 225, 90, WHITE);
-    break;
-
-  }
-   
-  // draw the shapes of the coming nodes 2 center:(220, 120)   
-  int distance = 40
-  switch (next_shape2)
-  {
-  /* 
-  ... ... ... ...
-  ... ... ... ...
-
-  */
-  case 0:
-    LCD_Fill( 195, 75+distance, 235, 85+distance, WHITE);
-    break;
-
-  /* 
-  ... ...
-  ... ...
-  ... ...
-  ... ...
-
-  */
-  case 1:
-    LCD_Fill( 210, 70+distance, 230, 90+distance, WHITE);
-    break;
-
-  /* 
-  ... ...
-  ... ...
-      ... ...
-      ... ...
-
-  */
-  case 2:
-    LCD_Fill( 205, 70+distance, 225, 80+distance, WHITE);
-    LCD_Fill( 215, 80+distance, 235, 90+distance, WHITE);
-    break;
-
-  /* 
-      ... ...
-      ... ...
-  ... ... 
-  ... ... 
-
-  */
-  case 3:
-    LCD_Fill( 215, 70+distance, 235, 80+distance, WHITE);
-    LCD_Fill( 205, 80+distance, 225, 90+distance, WHITE);
-    break;
-
-  /* 
-  ... 
-  ... 
-  ... ... ... 
-  ... ... ...
-
-  */
-  case 4:
-    LCD_Fill( 205, 70+distance, 215, 80+distance, WHITE);
-    LCD_Fill( 205, 80+distance, 235, 90+distance, WHITE);
-    break;
-
-  /* 
-          ...
-          ...
-  ... ... ... 
-  ... ... ...
-
-  */
-  case 5:
-    LCD_Fill( 225, 70+distance, 235, 80+distance, WHITE);
-    LCD_Fill( 205, 80+distance, 235, 90+distance, WHITE);
-    break;
-
-
-  /* 
-      ...
-      ...
-  ... ... ...
-  ... ... ...
-
-  */
-  case 6:
-    LCD_Fill( 205, 70+distance, 215, 80+distance, WHITE);
-    LCD_Fill( 195, 80+distance, 225, 90+distance, WHITE);
-    break;
-
-  }
-
-
-  // handle the key pressing
-	HAL_Delay(10);
-	if(GetPress(KEY0_GPIO_Port, KEY0_Pin,GPIO_PIN_RESET) == 1){
-		HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
-	}
-	if(GetPress(KEY1_GPIO_Port, KEY1_Pin,GPIO_PIN_RESET) == 1){
-		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-	}
-	if(GetPress(KEY_WK_GPIO_Port, KEY_WK_Pin,GPIO_PIN_RESET) == 1){
-		HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
-		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-	}
-
+	    draw_model_6(rotation , xoffset , drop , 1);
+	    	    rotation += 1;
+	    	    draw_model_6(rotation , xoffset , drop , 0);
+	   }
+	   if(GetPress(KEY_WK_GPIO_Port, KEY_WK_Pin,GPIO_PIN_SET) == 1){
+	    HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+	    HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+	    draw_model_6(rotation , xoffset , drop , 1);
+	    	    xoffset -=20;
+	    	    draw_model_6(rotation , xoffset , drop , 0);
+	   }
+	   HAL_Delay(60);
+	   draw_model_6(rotation , xoffset , drop , 1);
+	   drop += speed;
   }
   /* USER CODE END 3 */
 }
@@ -463,6 +285,200 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_shape2)
+{
+
+
+  char levelMsg[5];
+  char scoreMsg[5];
+  //char shapeLable[5] = "Next";
+ // char levelLable[6] = "Level";
+//  char scoreLable[6] = "Score";
+  // draw the status bar
+
+
+  // draw the strings in the status bar
+
+
+  // draw the number of levels and scores
+  sprintf(levelMsg, "%d", levelNum);
+  sprintf(scoreMsg, "%d", scoreNum);
+  LCD_ShowString(205, 210, 15, 15, 12, levelMsg);
+  LCD_ShowString(205, 280, 15, 15, 12, scoreMsg);
+
+  switch (next_shape1)
+  {
+  /*
+  ... ... ... ...
+  ... ... ... ...
+
+  */
+  case 0:
+    LCD_Fill( 205, 75, 235, 85, BLUE);
+    break;
+
+  /*
+  ... ...
+  ... ...
+  ... ...
+  ... ...
+
+  */
+  case 1:
+    LCD_Fill( 210, 70, 230, 90, WHITE);
+    break;
+
+  /*
+  ... ...
+  ... ...
+      ... ...
+      ... ...
+
+  */
+  case 2:
+    LCD_Fill( 205, 70, 225, 80, WHITE);
+    LCD_Fill( 215, 80, 235, 90, WHITE);
+    break;
+
+  /*
+      ... ...
+      ... ...
+  ... ...
+  ... ...
+
+  */
+  case 3:
+    LCD_Fill( 215, 70, 235, 80, WHITE);
+    LCD_Fill( 205, 80, 225, 90, WHITE);
+    break;
+
+  /*
+  ...
+  ...
+  ... ... ...
+  ... ... ...
+
+  */
+  case 4:
+    LCD_Fill( 205, 70, 215, 80, WHITE);
+    LCD_Fill( 205, 80, 235, 90, WHITE);
+    break;
+
+  /*
+          ...
+          ...
+  ... ... ...
+  ... ... ...
+
+  */
+  case 5:
+    LCD_Fill( 225, 70, 235, 80, WHITE);
+    LCD_Fill( 205, 80, 235, 90, WHITE);
+    break;
+
+
+  /*
+      ...
+      ...
+  ... ... ...
+  ... ... ...
+
+  */
+  case 6:
+    LCD_Fill( 205, 70, 215, 80, WHITE);
+    LCD_Fill( 195, 80, 225, 90, WHITE);
+    break;
+
+  }
+
+  // draw the shapes of the coming nodes 2 center:(220, 120)
+  int distance = 40;
+  switch (next_shape2)
+  {
+  /*
+  ... ... ... ...
+  ... ... ... ...
+
+  */
+  case 0:
+    LCD_Fill( 205, 75+distance, 235, 85+distance, BLUE);
+    break;
+
+  /*
+  ... ...
+  ... ...
+  ... ...
+  ... ...
+
+  */
+  case 1:
+    LCD_Fill( 210, 70+distance, 230, 90+distance, WHITE);
+    break;
+
+  /*
+  ... ...
+  ... ...
+      ... ...
+      ... ...
+
+  */
+  case 2:
+    LCD_Fill( 205, 70+distance, 225, 80+distance, WHITE);
+    LCD_Fill( 215, 80+distance, 235, 90+distance, WHITE);
+    break;
+
+  /*
+      ... ...
+      ... ...
+  ... ...
+  ... ...
+
+  */
+  case 3:
+    LCD_Fill( 215, 70+distance, 235, 80+distance, WHITE);
+    LCD_Fill( 205, 80+distance, 225, 90+distance, WHITE);
+    break;
+
+  /*
+  ...
+  ...
+  ... ... ...
+  ... ... ...
+
+  */
+  case 4:
+    LCD_Fill( 205, 70+distance, 215, 80+distance, WHITE);
+    LCD_Fill( 205, 80+distance, 235, 90+distance, WHITE);
+    break;
+
+  /*
+          ...
+          ...
+  ... ... ...
+  ... ... ...
+
+  */
+  case 5:
+    LCD_Fill( 225, 70+distance, 235, 80+distance, WHITE);
+    LCD_Fill( 205, 80+distance, 235, 90+distance, WHITE);
+    break;
+
+
+  /*
+      ...
+      ...
+  ... ... ...
+  ... ... ...
+
+  */
+  case 6:
+    LCD_Fill( 205, 70+distance, 215, 80+distance, WHITE);
+    LCD_Fill( 195, 80+distance, 225, 90+distance, WHITE);
+    break;
+
+  }
+}
+
 _Bool GetPress(GPIO_TypeDef *GPIOx,uint16_t GPIO_Pin,GPIO_PinState PinState)
 {
     if(HAL_GPIO_ReadPin(GPIOx,GPIO_Pin)==PinState)
@@ -477,6 +493,298 @@ _Bool GetPress(GPIO_TypeDef *GPIOx,uint16_t GPIO_Pin,GPIO_PinState PinState)
             else return 0;
     }
     else return 0;
+}
+
+///// SEVEN MODES
+void draw_model_1(int rotation , int x_offset ,int drop,int clear){
+	int x1 = 0;
+	int y1 = 0;
+	int x2 = 0;
+	int y2 = 0;
+	if(rotation % 2 == 0){
+		x1 = 80 + x_offset;
+		y1 = 0 + drop;
+		x2 = 160 + x_offset;
+		y2 = 20 + drop;
+
+	}else{
+		x1 = 110 + x_offset;
+		y1 = 0 + drop;
+		x2 = 130 + x_offset;
+		y2 = 80 + drop;
+
+	}
+	if(clear == 0){
+				LCD_Fill(x1,y1, x2, y2, YELLOW);
+			}else{
+				LCD_Fill(x1,y1, x2, y2, WHITE);
+			}
+}
+void draw_model_2(int rotation , int x_offset ,int drop,int clear){
+
+		int x1 = 100 + x_offset;
+		int y1 = 0 + drop;
+		int x2 = 140 + x_offset;
+		int y2 = 40 + drop;
+		if(clear == 0){
+			LCD_Fill(x1,y1, x2, y2, YELLOW);
+		}else{
+			LCD_Fill(x1,y1, x2, y2, WHITE);
+		}
+}
+void draw_model_3(int rotation , int x_offset ,int drop,int clear){
+	int x1 = 0;
+	int y1 = 0;
+	int x2 = 0;
+	int y2 = 0;
+	int x3 = 0;
+	int y3 = 0;
+	int x4 = 0;
+	int y4 = 0;
+	if(rotation % 2 == 0){
+		x1 = 90 + x_offset;
+		y1 = 0 + drop;
+		x2 = 130 + x_offset;
+		y2 = 20 + drop;
+		x3 = 110 + x_offset;
+		y3 = 20 + drop;
+		x4 = 150 + x_offset;
+		y4 = 40 + drop;
+
+	}else{
+		x1 = 100 + x_offset;
+		y1 = 20 + drop;
+		x2 = 120 + x_offset;
+		y2 = 60 + drop;
+		x3 = 120 + x_offset;
+		y3 = 0 + drop;
+		x4 = 140 + x_offset;
+		y4 = 40 + drop;
+
+	}
+	if(clear == 0){
+				LCD_Fill(x1,y1, x2, y2, YELLOW);
+				LCD_Fill(x3,y3, x4, y4, YELLOW);
+			}else{
+				LCD_Fill(x1,y1, x2, y2, WHITE);
+				LCD_Fill(x3,y3, x4, y4, WHITE);
+			}
+}
+void draw_model_4(int rotation , int x_offset ,int drop,int clear){
+	int x1 = 0;
+	int y1 = 0;
+	int x2 = 0;
+	int y2 = 0;
+	int x3 = 0;
+	int y3 = 0;
+	int x4 = 0;
+	int y4 = 0;
+	if(rotation % 2 == 0){
+		x1 = 110 + x_offset;
+		y1 = 0 + drop;
+		x2 = 150 + x_offset;
+		y2 = 20 + drop;
+		x3 = 90 + x_offset;
+		y3 = 20 + drop;
+		x4 = 130 + x_offset;
+		y4 = 40 + drop;
+
+
+	}else{
+		x1 = 100 + x_offset;
+		y1 = 0 + drop;
+		x2 = 120 + x_offset;
+		y2 = 40 + drop;
+		x3 = 120 + x_offset;
+		y3 = 20 + drop;
+		x4 = 140 + x_offset;
+		y4 = 60 + drop;
+
+	}
+	if(clear == 0){
+				LCD_Fill(x1,y1, x2, y2, YELLOW);
+				LCD_Fill(x3,y3, x4, y4, YELLOW);
+			}else{
+				LCD_Fill(x1,y1, x2, y2, WHITE);
+				LCD_Fill(x3,y3, x4, y4, WHITE);
+			}
+}
+void draw_model_5(int rotation , int x_offset ,int drop,int clear){
+	int x1 = 0;
+		int y1 = 0;
+		int x2 = 0;
+		int y2 = 0;
+		int x3 = 0;
+		int y3 = 0;
+		int x4 = 0;
+		int y4 = 0;
+	if(rotation % 4 == 0){
+		x1 = 90 + x_offset;
+		y1 = 0 + drop;
+		x2 = 110 + x_offset;
+		y2 = 20 + drop;
+		x3 = 90 + x_offset;
+		y3 = 20 + drop;
+		x4 = 150 + x_offset;
+		y4 = 40 + drop;
+
+
+	}else if(rotation % 4 == 1){
+		x1 = 120 + x_offset;
+		y1 = 0 + drop;
+		x2 = 140 + x_offset;
+		y2 = 20 + drop;
+		x3 = 100 + x_offset;
+		y3 = 0 + drop;
+		x4 = 120 + x_offset;
+		y4 = 60 + drop;
+
+	}else if(rotation % 4 == 2){
+		x1 = 90 + x_offset;
+		y1 = 0 + drop;
+		x2 = 150 + x_offset;
+		y2 = 20 + drop;
+		x3 = 130 + x_offset;
+		y3 = 20 + drop;
+		x4 = 150 + x_offset;
+		y4 = 40 + drop;
+
+	}else if(rotation % 4 == 3){
+		x1 = 100 + x_offset;
+		y1 = 40 + drop;
+		x2 = 120 + x_offset;
+		y2 = 60 + drop;
+		x3 = 120 + x_offset;
+		y3 = 0 + drop;
+		x4 = 140 + x_offset;
+		y4 = 60 + drop;
+
+	}
+	if(clear == 0){
+				LCD_Fill(x1,y1, x2, y2, YELLOW);
+				LCD_Fill(x3,y3, x4, y4, YELLOW);
+			}else{
+				LCD_Fill(x1,y1, x2, y2, WHITE);
+				LCD_Fill(x3,y3, x4, y4, WHITE);
+			}
+}
+void draw_model_6(int rotation , int x_offset ,int drop,int clear){
+	int x1 = 0;
+			int y1 = 0;
+			int x2 = 0;
+			int y2 = 0;
+			int x3 = 0;
+			int y3 = 0;
+			int x4 = 0;
+			int y4 = 0;
+	if(rotation % 4 == 0){
+		x1 = 130 + x_offset;
+		y1 = 0 + drop;
+		x2 = 150 + x_offset;
+		y2 = 20 + drop;
+		 x3 = 90 + x_offset;
+		y3 = 20 + drop;
+		 x4 = 150 + x_offset;
+		y4 = 40 + drop;
+
+
+	}else if(rotation % 4 == 1){
+		 x1 = 100 + x_offset;
+		y1 = 0 + drop;
+		 x2 = 120 + x_offset;
+		y2 = 60 + drop;
+		 x3 = 120 + x_offset;
+		 y3 = 40 + drop;
+		 x4 = 140 + x_offset;
+		y4 = 60 + drop;
+
+	}else if(rotation % 4 == 2){
+		 x1 = 90 + x_offset;
+		 y1 = 0 + drop;
+		x2 = 150 + x_offset;
+		 y2 = 20 + drop;
+		 x3 = 90 + x_offset;
+		y3 = 20 + drop;
+		 x4 = 110 + x_offset;
+		 y4 = 40 + drop;
+
+	}else if(rotation % 4 == 3){
+	 x1 = 100 + x_offset;
+		 y1 = 0 + drop;
+		 x2 = 120 + x_offset;
+		 y2 = 20 + drop;
+		x3 = 120 + x_offset;
+		y3 = 0 + drop;
+		 x4 = 140 + x_offset;
+		 y4 = 60 + drop;
+
+	}
+	if(clear == 0){
+				LCD_Fill(x1,y1, x2, y2, YELLOW);
+				LCD_Fill(x3,y3, x4, y4, YELLOW);
+			}else{
+				LCD_Fill(x1,y1, x2, y2, WHITE);
+				LCD_Fill(x3,y3, x4, y4, WHITE);
+			}
+}
+void draw_model_7(int rotation , int x_offset ,int drop,int clear){
+	int x1 = 0;
+				int y1 = 0;
+				int x2 = 0;
+				int y2 = 0;
+				int x3 = 0;
+				int y3 = 0;
+				int x4 = 0;
+				int y4 = 0;
+	if(rotation % 4 == 0){
+		x1 = 110 + x_offset;
+		y1 = 0 + drop;
+		 x2 = 130 + x_offset;
+		 y2 = 20 + drop;
+		x3 = 90 + x_offset;
+		 y3 = 20 + drop;
+		 x4 = 150 + x_offset;
+		 y4 = 40 + drop;
+
+
+	}else if(rotation % 4 == 1){
+		x1 = 100 + x_offset;
+		 y1 = 0 + drop;
+		 x2 = 120 + x_offset;
+		 y2 = 60 + drop;
+		 x3 = 120 + x_offset;
+		 y3 = 20 + drop;
+		 x4 = 140 + x_offset;
+		 y4 = 40 + drop;
+
+	}else if(rotation % 4 == 2){
+		 x1 = 90 + x_offset;
+		y1 = 0 + drop;
+		 x2 = 150 + x_offset;
+		 y2 = 20 + drop;
+		 x3 = 110 + x_offset;
+		 y3 = 20 + drop;
+		x4 = 130 + x_offset;
+		 y4 = 40 + drop;
+
+	}else if(rotation % 4 == 3){
+		x1 = 100 + x_offset;
+		 y1 = 20 + drop;
+		 x2 = 120 + x_offset;
+		 y2 = 40 + drop;
+		 x3 = 120 + x_offset;
+		 y3 = 0 + drop;
+		 x4 = 140 + x_offset;
+		 y4 = 60 + drop;
+
+	}
+	if(clear == 0){
+				LCD_Fill(x1,y1, x2, y2, YELLOW);
+				LCD_Fill(x3,y3, x4, y4, YELLOW);
+	}else{
+				LCD_Fill(x1,y1, x2, y2, WHITE);
+				LCD_Fill(x3,y3, x4, y4, WHITE);
+		}
 }
 /* USER CODE END 4 */
 
