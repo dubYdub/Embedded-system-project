@@ -74,6 +74,8 @@ static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_sha
   * @retval int
   */
 int xoffset = 0;
+int if_bottom = 0;
+int record[16][10];
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -131,36 +133,44 @@ int main(void)
 
 	  BACK_COLOR = WHITE;
 	  showStatus(levelNum, scoreNum, next_shape1, next_shape2);
-	  draw_model_7(rotation , drop , 0);
+	  draw_model_5(rotation , drop , 0);
 	  if(GetPress(KEY0_GPIO_Port, KEY0_Pin,GPIO_PIN_RESET) == 1){
 	    HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
 	    //RIGHT
-	    draw_model_7(rotation ,drop , 1);
+	    draw_model_5(rotation ,drop , 1);
 	    xoffset += 20;
-	    draw_model_7(rotation , drop , 0);
+	    draw_model_5(rotation , drop , 0);
 	   }
 	   if(GetPress(KEY1_GPIO_Port, KEY1_Pin,GPIO_PIN_RESET) == 1){
 	    HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
 	    //left
 
-	    draw_model_7(rotation ,drop , 1);
+	    draw_model_5(rotation ,drop , 1);
 	    	    rotation += 1;
-	    	    draw_model_7(rotation , drop , 0);
+	    	    draw_model_5(rotation , drop , 0);
 	   }
 	   if(GetPress(KEY_WK_GPIO_Port, KEY_WK_Pin,GPIO_PIN_SET) == 1){
 	    HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
 	    HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-	    draw_model_7(rotation , drop , 1);
+	    draw_model_5(rotation , drop , 1);
 	    	    xoffset -=20;
-	    	    draw_model_7(rotation ,drop , 0);
+	    	    draw_model_5(rotation ,drop , 0);
 	   }
-	   HAL_Delay(60);
-	   draw_model_7(rotation ,drop , 1);
-	   drop += speed;
+	   HAL_Delay(40);
+	   if(if_bottom == 0){
+		   draw_model_5(rotation ,drop , 1);
+		   	   drop += speed;
+	   }else{
+		   //到底之后，出现下一块
+
+		   if_bottom = 0;
+		   drop = 0;
+		   rotation = 0;
+		   xoffset = 0;
   }
   /* USER CODE END 3 */
 }
-
+}
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -533,6 +543,9 @@ void draw_model_1(int rotation , int drop,int clear){
 	}
 	if(clear == 0){
 				LCD_Fill(x1,y1, x2, y2, YELLOW);
+				if(y2 == 320){
+					if_bottom = 1;
+				}
 			}else{
 				LCD_Fill(x1,y1, x2, y2, WHITE);
 			}
@@ -552,7 +565,10 @@ void draw_model_2(int rotation ,int drop,int clear){
 		int x2 = 120 + xoffset;
 		int y2 = 40 + drop;
 		if(clear == 0){
-			LCD_Fill(x1,y1, x2, y2, YELLOW);
+			LCD_Fill(x1,y1, x2, y2, BLUE);
+			if(y2 == 320){
+								if_bottom = 1;
+							}
 		}else{
 			LCD_Fill(x1,y1, x2, y2, WHITE);
 		}
@@ -599,8 +615,11 @@ void draw_model_3(int rotation , int drop,int clear){
 
 	}
 	if(clear == 0){
-				LCD_Fill(x1,y1, x2, y2, YELLOW);
-				LCD_Fill(x3,y3, x4, y4, YELLOW);
+				LCD_Fill(x1,y1, x2, y2, GREEN);
+				LCD_Fill(x3,y3, x4, y4, GREEN);
+				if(y2 == 320 || y4 == 320){
+									if_bottom = 1;
+								}
 			}else{
 				LCD_Fill(x1,y1, x2, y2, WHITE);
 				LCD_Fill(x3,y3, x4, y4, WHITE);
@@ -650,8 +669,11 @@ void draw_model_4(int rotation , int drop,int clear){
 
 	}
 	if(clear == 0){
-				LCD_Fill(x1,y1, x2, y2, YELLOW);
-				LCD_Fill(x3,y3, x4, y4, YELLOW);
+				LCD_Fill(x1,y1, x2, y2, RED);
+				LCD_Fill(x3,y3, x4, y4, RED);
+				if(y2 == 320 || y4 == 320){
+													if_bottom = 1;
+												}
 			}else{
 				LCD_Fill(x1,y1, x2, y2, WHITE);
 				LCD_Fill(x3,y3, x4, y4, WHITE);
@@ -733,8 +755,11 @@ void draw_model_5(int rotation ,int drop,int clear){
 
 	}
 	if(clear == 0){
-				LCD_Fill(x1,y1, x2, y2, YELLOW);
-				LCD_Fill(x3,y3, x4, y4, YELLOW);
+				LCD_Fill(x1,y1, x2, y2, CYAN);
+				LCD_Fill(x3,y3, x4, y4, CYAN);
+				if(y2 == 320 || y4 == 320){
+													if_bottom = 1;
+												}
 			}else{
 				LCD_Fill(x1,y1, x2, y2, WHITE);
 				LCD_Fill(x3,y3, x4, y4, WHITE);
@@ -816,8 +841,11 @@ void draw_model_6(int rotation ,int drop,int clear){
 
 	}
 	if(clear == 0){
-				LCD_Fill(x1,y1, x2, y2, YELLOW);
-				LCD_Fill(x3,y3, x4, y4, YELLOW);
+				LCD_Fill(x1,y1, x2, y2, GRAY);
+				LCD_Fill(x3,y3, x4, y4, GRAY);
+				if(y2 == 320 || y4 == 320){
+													if_bottom = 1;
+												}
 			}else{
 				LCD_Fill(x1,y1, x2, y2, WHITE);
 				LCD_Fill(x3,y3, x4, y4, WHITE);
@@ -899,8 +927,11 @@ void draw_model_7(int rotation , int drop,int clear){
 
 	}
 	if(clear == 0){
-				LCD_Fill(x1,y1, x2, y2, YELLOW);
-				LCD_Fill(x3,y3, x4, y4, YELLOW);
+				LCD_Fill(x1,y1, x2, y2, BLACK);
+				LCD_Fill(x3,y3, x4, y4, BLACK);
+				if(y2 == 320 || y4 == 320){
+													if_bottom = 1;
+												}
 	}else{
 				LCD_Fill(x1,y1, x2, y2, WHITE);
 				LCD_Fill(x3,y3, x4, y4, WHITE);
