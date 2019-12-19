@@ -130,7 +130,7 @@ int main(void)
             xoffset += 20;
             draw_model_5(rotation, drop, 0);
         }
-        // Shape moves to the left.
+        // Shape rotates.
         if (GetPress(KEY1_GPIO_Port, KEY1_Pin, GPIO_PIN_RESET) == 1)
         {
             HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
@@ -138,7 +138,7 @@ int main(void)
             rotation += 1;
             draw_model_5(rotation, drop, 0);
         }
-        // Shape rotates.
+        // Shape moves to the left.
         if (GetPress(KEY_WK_GPIO_Port, KEY_WK_Pin, GPIO_PIN_SET) == 1)
         {
             HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
