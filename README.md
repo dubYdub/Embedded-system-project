@@ -93,9 +93,9 @@
 
 ## 主要方法
 
-基于整体模块架构，我们设计编写了以**draw_model_x**,  **judge**, **fill_record**, **showStatus** 等方法为核心的源码程序.
+基于整体模块架构，我们设计编写了以**draw_model_x**,  **judge**, **fill_record**, **showStatus**，**check_array** 等方法为核心的源码程序.
 
-接下来，我们将分别对这四个核心方法进行具体分析。
+接下来，我们将分别对这五个核心方法进行具体分析。
 
 
 <br>
@@ -456,6 +456,103 @@ static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_sha
 
 <br>
 
+
+
+### 5.check_array
+
+#### I.方法结构
+
+* void check_array(void)
+
+<br>
+
+#### II.方法功能
+
+此方法在每块方块停止下落时被触发，用来判断是否有一些行已经满了，如果满了则消除掉，并记录消除后原来未被消除位置的颜色并下落到相应位置上。
+
+<br>
+
+
+#### III.方法实现
+
+此方法实现方式较为直接，即自上而下遍历数组，若检测到一行已满，则先消除检测到的这行，并让这行上面的元素下落一行存到temp_array中，然后record_array再更新为temp_array里的二维数组，然后再重新调用此函数，递归操作，直至检测到最后一行也没有满行为止。
+
+
+#### 方法源码
+'''c
+void check_array(void)
+{
+    int i = 0;
+    int j = 0;
+    int temp_row = -1;
+
+    for (i = 0; i < 16; i++)
+    {
+        int if_full = 1;
+        for (j = 0; j < 10; j++)
+        {
+
+            if (arrays[i][j] == 0)
+            {
+                //  printf("%d\t",17);
+                if_full = 0;
+                break;
+            }
+        }
+        if (if_full == 0)
+        {
+            //printf("%d\t",18);
+            continue;
+        }
+        else
+        {
+        	count_row += 1;
+            temp_row = i;
+            printf("temp_row: %d\t", temp_row);
+
+            int k = 0;
+            int o = 0;
+            for (k = 0; k < 16; k++)
+            {
+                for (o = 0; o < 10; o++)
+                {
+                    if (k <= temp_row)
+                    {
+                        if (k >= 1)
+                        {
+                            temp_arr[k][o] = arrays[k - 1][o];
+                        }
+                    }
+                    else
+                    {
+                        temp_arr[k][o] = arrays[k][o];
+                    }
+                }
+            }
+            printf("test: %d\t", temp_arr[0][0]);
+            k = 0;
+            o = 0;
+            for (k = 0; k < 16; k++)
+            {
+                for (o = 0; o < 10; o++)
+                {
+                    arrays[k][o] = temp_arr[k][o];
+                }
+            }
+            //	 printArrays();
+            // printf("\n");
+            check_array();
+        }
+    }
+    return 0;
+}
+
+
+
+'''
+
+
+<br>
 
 
 +:
