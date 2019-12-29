@@ -13,14 +13,87 @@
 
 ## 模块设计
 
+---
+
+- 七个模型设计
+
+  模型一：
+
+  <img src="https://s2.ax1x.com/2019/12/29/lKYM1U.png" alt="模型1" style="zoom:33%;" />
+
+  模型二：
+
+  <img src="https://s2.ax1x.com/2019/12/29/lKYfgS.png" alt="模型2" style="zoom:33%;" />
+
+  模型三：
+
+  <img src="https://s2.ax1x.com/2019/12/29/lKYLCV.png" alt="模型三" style="zoom:33%;" />
+
+  模型四：
+
+  <img src="https://s2.ax1x.com/2019/12/29/lKtFC6.png" alt="模型4" style="zoom:33%;" />
+
+  模型五：
+
+  <img src="https://s2.ax1x.com/2019/12/29/lKtlPP.png" alt="模型5" style="zoom:33%;" />
+
+  模型六：
+
+  <img src="https://s2.ax1x.com/2019/12/29/lKtd5q.png" alt="模型6" style="zoom:33%;" />
+
+  模型七：
+
+  <img src="https://s2.ax1x.com/2019/12/29/lKtrxU.png" alt="模型7" style="zoom:33%;" />
+
+  
+
+- 按键模块设计
+
+  WK_UP按键：实现功能为，按下WK_UP按键模型左移一格，对应到LCD上为左移20个像素点距离。
+
+  KEY1按键：实现功能为，按下KEY1按键模型顺时针旋转90度。
+
+  KEY0按键：实现功能为，按下KEY0按键模型右移一格，对应到LCD上为右移20个像素点距离。
+
+  需要注意的点为：WK_UP的输入模式应设计为Pull-Down模型。
+
+- 状态栏设置
+
+  我们将LCD屏幕最右边的部分用作状态的显示。在状态栏里，我们将显示将要下落的两个模型的等比例缩小的图像和得分和游戏等级。游戏的得分和等级的提升遵循我们的游戏规则。
+
 <br>
 
 ## 具体实现
 
+---
+
+- 全局变量
+
+  我们设计了一系列的全局变量来方便我们对功能的实现。
+
+  xoffset：模型的水平偏移量。
+
+  if_bottom：判断模型是否触底。
+
+  arrays\[16]\[10]：记录LCD屏幕里对应方格的颜色。
+
+  temp_arr\[16]\[10]：记录消除满行后的方格颜色。
+
+  rotation：标记模型旋转的形状。
+
+  drop：模型的竖直位移量。
+
+  speed: 模块的初始速度。
+
+  count_row： 计算消除的满行数量。
+
+- 二维数组
+
+  我们使用二维数组array\[16]\[10]来记录整个屏幕有方格的位置对应的颜色。
+
+  当一个模型停止下落时，我们将记录下方格的位置。
 
 <br>
-
-
 
 ## 主要方法
 
