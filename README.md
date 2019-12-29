@@ -479,6 +479,7 @@ static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_sha
 
 
 #### 方法源码
+
 '''c
 
 void check_array(void)
