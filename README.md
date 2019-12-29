@@ -15,49 +15,39 @@
 
 ---
 
-- 七个模型设计
+### 七个模型设计
 
-  模型一：
-
-  <img src="https://s2.ax1x.com/2019/12/29/lKYM1U.png" alt="模型1" style="zoom:33%;" />
-
-  模型二：
-
-  <img src="https://s2.ax1x.com/2019/12/29/lKYfgS.png" alt="模型2" style="zoom:33%;" />
-
-  模型三：
-
-  <img src="https://s2.ax1x.com/2019/12/29/lKYLCV.png" alt="模型三" style="zoom:33%;" />
-
-  模型四：
-
-  <img src="https://s2.ax1x.com/2019/12/29/lKtFC6.png" alt="模型4" style="zoom:33%;" />
-
-  模型五：
-
-  <img src="https://s2.ax1x.com/2019/12/29/lKtlPP.png" alt="模型5" style="zoom:33%;" />
-
-  模型六：
-
-  <img src="https://s2.ax1x.com/2019/12/29/lKtd5q.png" alt="模型6" style="zoom:33%;" />
-
-  模型七：
-
-  <img src="https://s2.ax1x.com/2019/12/29/lKtrxU.png" alt="模型7" style="zoom:33%;" />
-
+- 模型一
+![](https://s2.ax1x.com/2019/12/29/lKYM1U.png)
+- 模型二
+![](https://s2.ax1x.com/2019/12/29/lKYfgS.png)
+- 模型三
+![](https://s2.ax1x.com/2019/12/29/lKYLCV.png)
+- 模型四
+![](https://s2.ax1x.com/2019/12/29/lKtFC6.png)
+- 模型五
+![](https://s2.ax1x.com/2019/12/29/lKtlPP.png)
+- 模型六
+![](https://s2.ax1x.com/2019/12/29/lKtd5q.png)
+- 模型七
+![](https://s2.ax1x.com/2019/12/29/lKtrxU.png)
   
 
-- 按键模块设计
+<br>
 
-  WK_UP按键：实现功能为，按下WK_UP按键模型左移一格，对应到LCD上为左移20个像素点距离。
+### 按键模块设计
 
-  KEY1按键：实现功能为，按下KEY1按键模型顺时针旋转90度。
+- WK_UP按键：实现功能为，按下WK_UP按键模型左移一格，对应到LCD上为左移20个像素点距离。
 
-  KEY0按键：实现功能为，按下KEY0按键模型右移一格，对应到LCD上为右移20个像素点距离。
+- KEY1按键：实现功能为，按下KEY1按键模型顺时针旋转90度。
 
-  需要注意的点为：WK_UP的输入模式应设计为Pull-Down模型。
+- KEY0按键：实现功能为，按下KEY0按键模型右移一格，对应到LCD上为右移20个像素点距离。
 
-- 状态栏设置
+> 需要注意的点为：WK_UP的输入模式应设计为Pull-Down模型。
+
+<br>
+
+### 状态栏设置
 
   我们将LCD屏幕最右边的部分用作状态的显示。在状态栏里，我们将显示将要下落的两个模型的等比例缩小的图像和得分和游戏等级。游戏的得分和等级的提升遵循我们的游戏规则。
 
