@@ -478,10 +478,9 @@ static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_sha
 此方法实现方式较为直接，即自上而下遍历数组，若检测到一行已满，则先消除检测到的这行，并让这行上面的元素下落一行存到temp_array中，然后record_array再更新为temp_array里的二维数组，然后再重新调用此函数，递归操作，直至检测到最后一行也没有满行为止。
 
 
-#### 方法源码
+#### IV.方法源码
 
-'''c
-
+```c
 void check_array(void)
 {
     int i = 0;
@@ -550,7 +549,7 @@ void check_array(void)
 }
 
 
-'''
+```
 
 
 <br>
