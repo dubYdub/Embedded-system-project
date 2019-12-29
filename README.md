@@ -184,26 +184,94 @@ void draw_model_1(int lor)
 <br>
 
 
-<br>
-
-
 ### 2. judge
 
 
 
 #### I.方法结构
 
+*int judge(int x_1, int y_1, int x_2, int y_2);*
 
+<br>
 
 #### II.方法功能
 
+此方法将根据输出四个参数x_1,y_1,x_2,y_2，判断由（x_1. y_1）,(x_2, y_2) 组成的矩形区域在屏幕上是否能够绘制图形。如果能够绘制图形，则返回1；如果超出屏幕边界或者与已绘制图形区域重合，则返回0.
 
+<br>
 
 #### III.方法实现
 
+首先，因为屏幕的游戏区域固定，我们可以很容易地判断指定的绘制范围是否碰壁。关键点在于，之前未消除方块很可能与判断区域存在重合。为了解决这个问题，我们设计了指代整个屏幕颜色情况的二维数组arrays。通过该数组，我们可以知道屏幕上某个固定区域的颜色情况（每个区域大小为20*20）。在judge函数中，我们会将输入的绘制范围转化为二维数组中的数据范围，随后检察数组中此范围内是否存在颜色不为白色的值（即数值不为0）。如果存在，返回0；如果不存在，返回1。
 
+<br>
 
 #### IV.方法源码
+
+```c
+int judge(int x_1, int y_1, int x_2, int y_2)
+{
+    if (x_2 > 200 || x_1 < 0 || y_1 < 0 || y_2 > 320)
+    {
+        return 0;
+    }
+    int x1 = x_1 / 20;
+    int y1 = y_1 / 20;
+    int x2 = x_2 / 20;
+    int y2 = y_2 / 20;
+
+    //如果刚好在在方格里
+    if (y_2 % 20 == 0)
+    {
+        int i = 0;
+        int j = 0;
+        int f1 = 1;
+        int f2 = 1;
+        for (j = x1; j < x2; j++)
+        {
+            for (i = y1; i < y2; i++)
+            {
+                if (arrays[i][j] > 0)
+                {
+                    f1 = 0;
+                }
+            }
+        }
+        for (int i = x1; i < x2; i++)
+        {
+            if (arrays[i][y2] > 0)
+            {
+                f2 = 0;
+            }
+        }
+        if (f1 == 1 && f2 == 1)
+        {
+            return 1;
+        }
+    }
+
+    //如果不在在方格里
+    else
+    {
+        int i = 0;
+        int j = 0;
+
+        y2 = y2 + 1;
+        for (j = x1; j < x2; j++)
+        {
+            for (i = y1; i < y2; i++)
+            {
+                if (arrays[i][j] > 0)
+                {
+                    return 0;
+                }
+            }
+        }
+    }
+
+    return 1;
+}
+```
 
 
 
@@ -213,17 +281,63 @@ void draw_model_1(int lor)
 
 #### I.方法结构
 
+*void fill_record(int x_1, int y_1, int x_2, int y_2, int color);*
 
+<br>
 
 #### II.方法功能
 
+此方法将根据参数中指定的屏幕范围，将指定的颜色写入代表整个屏幕颜色情况的二维数组中。
 
+<br>
 
 #### III.方法实现
 
+方法实现清晰明了，按照20：1的比例尺转化输入参数为二维数组坐标，再将颜色值写入坐标范围中即可。需要注意的是，由于数组建立的方向与屏幕坐标轴方向相反，更新数组时x与y要反过来。
 
+<br>
 
 #### IV.方法源码
+
+```c
+void fill_record(int x_1, int y_1, int x_2, int y_2, int color)
+{
+    int x1 = x_1 / 20;
+    int x2 = x_2 / 20;
+    int y1 = y_1 / 20;
+    int y2 = y_2 / 20;
+
+    if (x2 == x1 + 1)
+    {
+        int i = 0;
+        for (i = y1; i < y2; i++)
+        {
+            arrays[i][x1] = color;
+        }
+    }
+    else if (y2 == y1 + 1)
+    {
+        int i = 0;
+        for (i = x1; i < x2; i++)
+        {
+            arrays[y1][i] = color;
+        }
+    }
+    else if (x2 >= x1 + 2 && y2 >= y1 + 2)
+    {
+        int i = 0;
+        int j = 0;
+
+        for (i = x1; i < x2; i++)
+        {
+            for (j = y1; j < y2; j++)
+            {
+                arrays[j][i] = color;
+            }
+        }
+    }
+}
+```
 
 <br>
 
@@ -233,19 +347,43 @@ void draw_model_1(int lor)
 
 #### I.方法结构
 
+*static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_shape2);*
 
+<br>
 
 #### II.方法功能
 
+此方法用来绘制标识有等级，分数与方块预告的游戏状态栏。
 
+<br>
 
 #### III.方法实现
 
+此方法实现十分简单，即根据 **LCD_ShowString**与**LCD_Fill**方法将关卡等级与分数值实时显示在状态中。唯一麻烦的地方是要根据七种不同的方块预先写好方块预告的绘制位置。
 
+<br>
 
 #### IV.方法源码
 
+```c
+static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_shape2)
+{
 
+    char levelMsg[5];
+    char scoreMsg[5];
+    sprintf(levelMsg, "%d", levelNum);
+    sprintf(scoreMsg, "%d", scoreNum);
+    LCD_ShowString(205, 210, 15, 15, 12, levelMsg);
+    LCD_ShowString(205, 280, 15, 15, 12, scoreMsg);
+    LCD_Fill(204,70,240,160,WHITE);
+    switch (next_shape1)
+    {
+     /////////////////////////绘制预告图形部分代码过于冗余，故不引用////////////////////////
+    }
+
+}
+
+```
 
 <br>
 
