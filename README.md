@@ -346,7 +346,7 @@ int judge(int x_1, int y_1, int x_2, int y_2)
 
 <br>
 
-### 3.fiill_record
+### 3.fill_record
 
 #### I.方法结构
 
@@ -462,7 +462,7 @@ static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_sha
 
 #### I.方法结构
 
-* void check_array(void)
+*void check_array(void)；
 
 <br>
 
@@ -480,6 +480,7 @@ static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_sha
 
 #### 方法源码
 '''c
+
 void check_array(void)
 {
     int i = 0;
@@ -546,7 +547,6 @@ void check_array(void)
     }
     return 0;
 }
-
 
 
 '''
