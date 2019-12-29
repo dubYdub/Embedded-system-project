@@ -392,7 +392,6 @@ static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_sha
 +:
 ## 结果展示
 
----
 
 - 右1边状态栏会显示等级和分数，且满行后会消失
 
@@ -442,19 +441,10 @@ static void showStatus(int levelNum, int scoreNum, int next_shape1, int next_sha
 ![](https://s2.ax1x.com/2019/12/29/lK3oY8.jpg)
 
 
-
-
-
-
-
-
-
-
-
-----
-
-
-
 <br>
 
 ## 未来工作
+- 加入更多方块类型
+- 提高等级上限，优化关卡限制与分数要求
+- 充分利用开发板上LED的闪烁，增强游戏性
+- 加入声效
