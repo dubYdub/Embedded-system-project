@@ -113,7 +113,68 @@
 
 
 
++:
 ## 结果展示
+
+---
+
+- 右1边状态栏会显示等级和分数，且满行后会消失
+
+
+
+![](https://s2.ax1x.com/2019/12/29/lK3sJO.png)
+
+![](https://s2.ax1x.com/2019/12/29/lK3yWD.png)
+
+
+
+
+
+- 状态栏会显示接下来的两个形状
+
+![](https://s2.ax1x.com/2019/12/29/lK3we1.png)
+
+- level 1
+
+![](https://s2.ax1x.com/2019/12/29/lK3Bo6.png)
+
+- level 2
+
+![](https://s2.ax1x.com/2019/12/29/lK3cSe.png)
+
+- level3
+
+![](https://s2.ax1x.com/2019/12/29/lK3gQH.png)
+
+- 初始形状
+
+![](https://s2.ax1x.com/2019/12/29/lK3ROA.jpg)
+
+- 向左移动
+
+![](https://s2.ax1x.com/2019/12/29/lK3hwt.jpg)
+
+- 向右移动
+
+![](https://s2.ax1x.com/2019/12/29/lK34TP.jpg)
+
+- 旋转后的形状
+
+![](https://s2.ax1x.com/2019/12/29/lK3oY8.jpg)
+
+
+
+
+
+
+
+
+
+
+
+----
+
+
 
 
 
