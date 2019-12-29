@@ -134,15 +134,18 @@
 
 ![](https://s2.ax1x.com/2019/12/29/lK3we1.png)
 
-- level 1
+---
+###计分规则： 每下落一个记1分，消除1行记3分
+
+- level 1（20分以下，速度为2）
 
 ![](https://s2.ax1x.com/2019/12/29/lK3Bo6.png)
 
-- level 2
+- level 2（超过20分自动升级level2，速度为5）
 
 ![](https://s2.ax1x.com/2019/12/29/lK3cSe.png)
 
-- level3
+- level3（超过50自动升级为level3，速度为10）
 
 ![](https://s2.ax1x.com/2019/12/29/lK3gQH.png)
 
